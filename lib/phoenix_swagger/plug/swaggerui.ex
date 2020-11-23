@@ -29,68 +29,65 @@ defmodule PhoenixSwagger.Plug.SwaggerUI do
 
   @template """
   <!-- HTML for static distribution bundle build -->
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <title>Swagger UI</title>
-        <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
-        <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-        <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-        <style>
-          html
-          {
-            box-sizing: border-box;
-            overflow: -moz-scrollbars-vertical;
-            overflow-y: scroll;
-          }
-
-          *,
-          *:before,
-          *:after
-          {
-            box-sizing: inherit;
-          }
-
-          body
-          {
-            margin:0;
-            background: #fafafa;
-          }
-        </style>
-      </head>
-
-      <body>
-        <div id="swagger-ui"></div>
-
-        <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-        <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-        <script>
-        window.onload = function() {
-          // Begin Swagger UI call region
-          const swagger_url = new URL(window.location);
-          swagger_url.pathname = swagger_url.pathname.replace("index.html", "<%= spec_url %>");
-          swagger_url.hash = "";
-          const ui = SwaggerUIBundle({
-            url: swagger_url.href,
-            dom_id: '#swagger-ui',
-            deepLinking: true,
-            presets: [
-              SwaggerUIBundle.presets.apis,
-              SwaggerUIStandalonePreset
-            ],
-            plugins: [
-              SwaggerUIBundle.plugins.DownloadUrl
-            ],
-            layout: "StandaloneLayout"
-          })
-          // End Swagger UI call region
-
-          window.ui = ui
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Swagger UI</title>
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
+      <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+      <style>
+        html
+        {
+          box-sizing: border-box;
+          overflow: -moz-scrollbars-vertical;
+          overflow-y: scroll;
         }
-      </script>
-      </body>
-    </html>
+        *,
+        *:before,
+        *:after
+        {
+          box-sizing: inherit;
+        }
+        body
+        {
+          margin:0;
+          background: #fafafa;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div id="swagger-ui"></div>
+
+      <script src="./swagger-ui-bundle.js"> </script>
+      <script src="./swagger-ui-standalone-preset.js"> </script>
+      <script>
+      window.onload = function() {
+        // Build a system
+        const swagger_url = new URL(window.location);
+        swagger_url.pathname = swagger_url.pathname.replace("index.html", "<%= spec_url %>");
+        swagger_url.hash = "";
+        const ui = SwaggerUIBundle({
+          url: swagger_url.href,
+          dom_id: '#swagger-ui',
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ],
+          layout: "StandaloneLayout"
+        })
+        window.ui = ui
+      }
+    </script>
+    </body>
+  </html>
   """
 
   # Redirect / to /index.html
